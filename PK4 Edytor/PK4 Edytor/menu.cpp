@@ -5,238 +5,202 @@
 
 #include "menu.h"
 
-
-//Ustalanie koloru tła
+// Set background color
 void Button::setBackColor(sf::Color color) {
-	button.setFillColor(color);
+    button.setFillColor(color);
 }
 
-
-//Ustalanie pozycji
+// Set position
 void Button::setPosition(sf::Vector2f point, int frame) {
-	button.setPosition(point.x + frame, point.y + frame);
-	menuImage.setPosition(point.x + frame, point.y + frame);
+    button.setPosition(point.x + frame, point.y + frame);
+    menuImage.setPosition(point.x + frame, point.y + frame);
 }
 
-
-//Ustalanie aktywności
+// Set activity
 void Button::setActive(bool what) {
-	active = what;
+    active = what;
 }
 
-
-//Ustalanie podświetnienia
+// Set highlighting
 void Button::setHovered(bool what) {
-	hovered = what;
+    hovered = what;
 }
 
-
-//Zmiana tekstury (ograniczona ze względu na wykorzystanie w jednym przypadku)
+// Change texture (limited due to use in one case)
 void Button::changeTexture(int which) {
-	menuImage.setTextureRect(sf::IntRect(50 * which, 50 * 3, 50, 50));
+    menuImage.setTextureRect(sf::IntRect(50 * which, 150, 50, 50));
 }
 
-
-//Narysuj przycisk na ekran
+// Draw button on screen
 void Button::drawTo(sf::RenderWindow& window) {
+    if (active || hovered)
+        button.setFillColor(sf::Color(200, 200, 200));
+    else
+        button.setFillColor(sf::Color(220, 220, 220));
 
-	if (active == true || hovered == true)
-		button.setFillColor(sf::Color(200, 200, 200));
-	else
-		button.setFillColor(sf::Color(220, 220, 220));
-
-	window.draw(button);
-	window.draw(menuImage);
+    window.draw(button);
+    window.draw(menuImage);
 }
 
-
-//Zwraca prawdę gdy kursor znajduje się na przycisku
+// Return true if cursor is over the button
 bool Button::isMouseOver(sf::RenderWindow& window) {
-	int mouseX = sf::Mouse::getPosition(window).x;
-	int mouseY = sf::Mouse::getPosition(window).y;
+    int mouseX = sf::Mouse::getPosition(window).x;
+    int mouseY = sf::Mouse::getPosition(window).y;
 
-	int btnPosX = button.getPosition().x;
-	int btnPosY = button.getPosition().y;
+    int btnPosX = button.getPosition().x;
+    int btnPosY = button.getPosition().y;
 
-	int btnxPosWidth = button.getPosition().x + btnWidth;
-	int btnyPosHeight = button.getPosition().y + btnHeight;
+    int btnxPosWidth = btnPosX + btnWidth;
+    int btnyPosHeight = btnPosY + btnHeight;
 
-	if (mouseX < btnxPosWidth && mouseX > btnPosX&& mouseY < btnyPosHeight && mouseY > btnPosY) {
-		return true;
-	}
-	return false;
+    return mouseX < btnxPosWidth && mouseX > btnPosX && mouseY < btnyPosHeight && mouseY > btnPosY;
 }
 
+// Button constructor
+Button::Button(sf::Vector2f buttonSize, sf::Vector2f buttonPosition, float frame, sf::Color bgColor, sf::Texture* menuTexture, int btnNo, int textureRow) {
+    button.setSize(buttonSize);
+    button.setFillColor(bgColor);
+    button.setOutlineThickness(frame);
+    button.setOutlineColor(sf::Color(180, 180, 180));
 
-//Konstruktor przycisku
-Button::Button(sf::Vector2f buttonSize, sf::Vector2f buttonPosition, float frame, sf::Color BgColor, sf::Texture* menuTexture, int BtnNo, int TextureRow) {
+    menuImage.setSize(buttonSize);
+    menuImage.setTexture(menuTexture);
+    menuImage.setTextureRect(sf::IntRect(buttonSize.x * btnNo, buttonSize.y * textureRow, buttonSize.x, buttonSize.y));
 
-	button.setSize(buttonSize);
-	button.setFillColor(BgColor);
-	button.setOutlineThickness(frame);
-	button.setOutlineColor(sf::Color(180, 180, 180));
+    setPosition(buttonPosition, frame);
 
-	menuImage.setSize(buttonSize);
-	menuImage.setTexture(menuTexture);
-
-	menuImage.setTextureRect(sf::IntRect(buttonSize.x * BtnNo, buttonSize.y * TextureRow, buttonSize.x, buttonSize.y));
-
-	setPosition(buttonPosition, frame);
-
-	btnWidth = buttonSize.x;
-	btnHeight = buttonSize.y;
-	active = false;
+    btnWidth = buttonSize.x;
+    btnHeight = buttonSize.y;
+    active = false;
 }
 
+/* INTERFACE */
 
-
-
-/*INTERFACE*/
-
-//Rysowanie całego Gui
+// Draw the entire GUI
 void Gui::drawGui(sf::RenderWindow& window) {
+    window.draw(menuBg);
+    window.draw(lineText);
+    window.draw(fillText);
 
-	window.draw(menuBg);
-	window.draw(lineText);
-	window.draw(fillText);
-
-	for (int i = 0; i < GuiVector.size(); i++) {
-		for (int j = 0; j < GuiVector[i].size(); j++) {
-			GuiVector[i][j].drawTo(window);
-		}
-	}
+    for (auto& buttonRow : guiVector) {
+        for (auto& button : buttonRow) {
+            button.drawTo(window);
+        }
+    }
 }
 
-
-//Konstruktor rzędu przycisków
-void Gui::makeMenu(std::vector<Button>* menuButtonRow, sf::Vector2f buttonSize, sf::Vector2f buttonPosition, float frame, sf::Color BgColor, sf::Texture* menuTexture, int BtnAm, int row) {
-	for (float i = 0; i < BtnAm; i++)
-		(*menuButtonRow).push_back(Button(buttonSize, { (buttonPosition.x + buttonSize.x * i), buttonPosition.y }, frame, BgColor, menuTexture, i, row));
+// Constructor for a row of buttons
+void Gui::makeMenu(std::vector<Button>* menuButtonRow, sf::Vector2f buttonSize, sf::Vector2f buttonPosition, float frame, sf::Color bgColor, sf::Texture* menuTexture, int btnAmount, int row) {
+    for (int i = 0; i < btnAmount; ++i) {
+        menuButtonRow->emplace_back(buttonSize, sf::Vector2f{buttonPosition.x + buttonSize.x * i, buttonPosition.y}, frame, bgColor, menuTexture, i, row);
+    }
 }
 
-
-//Podświetlenie przycisku po najechaniu
+// Highlight button on hover
 void Gui::menuReact(sf::RenderWindow& window, int row) {
-	for (int i = 0; i < GuiVector[row].size(); i++) {
-		if (GuiVector[row][i].isMouseOver(window)) {
-			GuiVector[row][i].setHovered(true);
-		}
-		else {
-			GuiVector[row][i].setHovered(false);
-		}
-	}
+    for (auto& button : guiVector[row]) {
+        button.setHovered(button.isMouseOver(window));
+    }
 }
 
-
-//Reakcja na klikniecie dla pojedynczych przyciskow
+// Single button click response
 bool Gui::menuClick(sf::RenderWindow& window, int row) {
-		if (GuiVector[row][0].isMouseOver(window)) 
-			return true;
-		else return false;
+    return guiVector[row][0].isMouseOver(window);
 }
 
-
-//Reakcja na klinięcie dla list przycisków
+// Response to click for a list of buttons
 int Gui::menuListClick(sf::RenderWindow& window, int row) {
-
-	for (int i = 0; i < GuiVector[row].size(); i++)
-		if (GuiVector[row][i].isMouseOver(window)) {
-
-			for (int j = 0; j < GuiVector[row].size(); j++)
-				GuiVector[row][j].setActive(false);
-
-			GuiVector[row][i].setActive(true);
-			return i;
-		}
-	return -1;
+    for (int i = 0; i < guiVector[row].size(); ++i) {
+        if (guiVector[row][i].isMouseOver(window)) {
+            for (auto& button : guiVector[row]) {
+                button.setActive(false);
+            }
+            guiVector[row][i].setActive(true);
+            return i;
+        }
+    }
+    return -1;
 }
 
-
-//Zmiana tesktów w gui
+// Change texts in GUI
 void Gui::changeText(int which, int value) {
-
-	if (which == 0) {
-		lineText.setString("Grubosc linii: " + std::to_string(value + 1));
-	}
-	else if (which == 1) {
-		if (value == 0) {
-			fillText.setString("Wypelnienie ksztaltu: Nie");
-			GuiVector[3][0].changeTexture(0);
-		}
-		else if (value == 1) {
-			fillText.setString("Wypelnienie ksztaltu: Tak");
-			GuiVector[3][0].changeTexture(1);
-		}
-	}
+    if (which == 0) {
+        lineText.setString("Grubosc linii: " + std::to_string(value + 1));
+    }
+    else if (which == 1) {
+        if (value == 0) {
+            fillText.setString("Shape fill: Nie");
+            guiVector[3][0].changeTexture(0);
+        }
+        else if (value == 1) {
+            fillText.setString("Shape fill: Tak");
+            guiVector[3][0].changeTexture(1);
+        }
+    }
 }
 
-
-/*PRZECIĄŻONY OPERATOR*/
-Gui::operator int() {
-	return GuiVector.size();
+// Operator overload
+Gui::operator int() const {
+    return static_cast<int>(guiVector.size());
 }
 
-
-//Konstruktor całego Gui składający wszystkie przyciski w całość
+// GUI constructor assembling all buttons
 Gui::Gui(sf::RenderWindow& window, sf::Texture* menuTexture, sf::Font* font) {
+    std::vector<Button> temp;
 
-	std::vector<Button> temp;
+    // Top bar background
+    menuBg.setFillColor(sf::Color(180, 180, 180));
+    menuBg.setSize({ 1280,54 });
 
-	//Tło górnego paska
-	menuBg.setFillColor(sf::Color(180, 180, 180));
-	menuBg.setSize({ 1280,54 });
+    // Text for line thickness and shape fill
+    lineText.setString("Line thickness: 1");
+    lineText.setFont(*font);
+    lineText.setCharacterSize(16);
+    lineText.setPosition({ 930,4 });
+    lineText.setFillColor(sf::Color::Black);
 
-	//Teksty informujące o grubości linni i wypełnieniu
-	lineText.setString("Grubosc linii: 1");
-	lineText.setFont(*font);
-	lineText.setCharacterSize(16);
-	lineText.setPosition({ 930,4 });
-	lineText.setFillColor(sf::Color::Black);
+    fillText.setString("Shape fill: No");
+    fillText.setFont(*font);
+    fillText.setCharacterSize(16);
+    fillText.setPosition({ 930,26 });
+    fillText.setFillColor(sf::Color::Black);
 
-	fillText.setString("Wypelnienie ksztaltu: Nie");
-	fillText.setFont(*font);
-	fillText.setCharacterSize(16);
-	fillText.setPosition({ 930,26 });
-	fillText.setFillColor(sf::Color::Black);
+    // Tool buttons
+    makeMenu(&temp, { 50,50 }, { 0,0 }, 2, sf::Color(220, 220, 220), menuTexture, 6, 0);
+    guiVector.push_back(temp);
+    temp.clear();
 
-	//Przyciski narzędzi
-	makeMenu(&temp, { 50,50 }, { 0,0 }, 2, sf::Color(220, 220, 220), menuTexture, 6, 0);
-	GuiVector.push_back(temp);
-	temp.clear();
+    // Color buttons
+    makeMenu(&temp, { 50,50 }, { 310,0 }, 2, sf::Color(220, 220, 220), menuTexture, 10, 1);
+    guiVector.push_back(temp);
+    temp.clear();
 
-	//Przyciski kolorów
-	makeMenu(&temp, { 50,50 }, { 310,0 }, 2, sf::Color(220, 220, 220), menuTexture, 10, 1);
-	GuiVector.push_back(temp);
-	temp.clear();
+    // Line thickness change button
+    makeMenu(&temp, { 50,50 }, { 820,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 2);
+    guiVector.push_back(temp);
+    temp.clear();
 
-	//Przycisk zmiany grubości
-	makeMenu(&temp, { 50,50 }, { 820,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 2);
-	GuiVector.push_back(temp);
-	temp.clear();
+    // Shape fill button
+    makeMenu(&temp, { 50,50 }, { 870,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 3);
+    guiVector.push_back(temp);
+    temp.clear();
 
-	//Przycisk wypełnienia
-	makeMenu(&temp, { 50,50 }, { 870,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 3);
-	GuiVector.push_back(temp);
-	temp.clear();
+    // Undo button
+    makeMenu(&temp, { 50,50 }, { 1126,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 4);
+    guiVector.push_back(temp);
+    temp.clear();
 
-	//Przycisk Undo
-	makeMenu(&temp, { 50,50 }, { 1126,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 4);
-	GuiVector.push_back(temp);
-	temp.clear();
+    // Save button
+    makeMenu(&temp, { 50,50 }, { 1178,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 5);
+    guiVector.push_back(temp);
+    temp.clear();
 
-	//Przycisk zapisu
-	makeMenu(&temp, { 50,50 }, { 1178,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 5);
-	GuiVector.push_back(temp);
-	temp.clear();
+    // Load button
+    makeMenu(&temp, { 50,50 }, { 1230,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 6);
+    guiVector.push_back(temp);
+    temp.clear();
 
-	//Przycisk odczytu
-	makeMenu(&temp, { 50,50 }, { 1230,0 }, 2, sf::Color(220, 220, 220), menuTexture, 1, 6);
-	GuiVector.push_back(temp);
-	temp.clear();
-
-	//Podstawowe wartości
-	GuiVector[0][0].setActive(1);
-	GuiVector[1][2].setActive(1);
+    // Default values
+    guiVector[0][0].setActive(true);
+    guiVector[1][2].setActive(true);
 }
-
-

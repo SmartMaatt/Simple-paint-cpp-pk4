@@ -1,153 +1,153 @@
 #pragma once
-#ifndef classesh
-#define classesh
-
 #include <SFML/Graphics.hpp>
 #include <vector>
 #include <type_traits>
 
-//Główna, w pełni witualna klasa
-class ObiektGraficzny {
-	
+
+class GraphicalObject {
+
 public:
-	virtual void draw(sf::RenderWindow& window) = 0;	//Rysowanie obiektu na ekran
-	virtual void showInfo(int click[4]) = 0;			//Wypisywanie informacji o obiekcie na konsole
+	virtual void draw(sf::RenderWindow& window) = 0;	// Drawing object on screen
+	virtual void showInfo(int click[4]) = 0;			// Writing out information about an object to console
 };
 
 
-//Klasa kształt
-class Shape :public ObiektGraficzny {
+
+class Shape : public GraphicalObject {
 
 protected:
-	float X1, Y1, X2, Y2;	//Współrzędne
-	sf::Shape* shapeSrc;	//Zmienna kształtu z biblioteki SFML
-	bool fill;				//Wypełnienie
-	
+	float X1, Y1, X2, Y2;	// Coordinates
+	sf::Shape* shapeSrc;	// Shape variable from the SFML library
+	bool fill;				// Filling flag
+
 public:
-	sf::Color chooseColor(int color);	//Wybór koloru kształtu
-	void draw(sf::RenderWindow& window); //Rysowanie obiektu na ekran
+	sf::Color chooseColor(int color);			// Choose shape color
+	void draw(sf::RenderWindow& window);		// Determining shape on screen
 
-	void setPoints(float points[4]);		//Ustalanie współrzędnych kształtu
-	void setColor(sf::Color color);			//Ustalanie koloru kształtu
-	void setFilling(int data);				//Ustalanie wypełnienia
-	void setOutline(sf::Color color, int data);	//Ustalanie grubości obranowania
-	void setPosition(float x, float y);		//Ustalanie pozycji kształtu
+	void setPoints(float points[4]);			// Determining shape coordinates
+	void setColor(sf::Color color);				// Determining shape color
+	void setOutline(sf::Color color, int data);	// Determining the thickness of outline
+	void setFilling(int data);					// Determining filling
+	void setPosition(float x, float y);			// Determining shape position
 
-	virtual void setSize(float a, float b)=0;	//Ustalanie wielkości kształtu
-	virtual void specialCalc() = 0;				//Specjalnie obliczenia dla każdej klasy
+	virtual void setSize(float a, float b) = 0;
+	virtual void specialCalc() = 0;
 };
 
 
-//Klasa linia
-class Line :public Shape {
+
+class Line : public Shape {
 
 protected:
-	sf::RectangleShape lineShape;	//Zmienna kształtu prostokątu z biblioteki SFML
-	float length, angle;			//Parametry linii
+	sf::RectangleShape lineShape;		// Line shape variable from SFML library
+	float length, angle;				// Line parameters
 
-public:	
-	void setOrigin(float x, float y);	//Ustalanie początku układu wpółrzędnych
-	void setSize(float a, float b);		//Ustalanie wielkości kształtu
-	void setAngle();					//Ustalanie kąta nachylenia linii
-	void specialCalc();					//Obliczenia dla linii
-	void showInfo(int click[4]);		//Wypisywanie informacji o obiekcie na konsole
+public:
+	void setOrigin(float x, float y);	// Determining origin coordinates
+	void setSize(float a, float b);		// Determining line size
+	void setAngle();					// Determining line angle
+	void specialCalc();					// Line calculations
+	void showInfo(int click[4]);		// Writing out information about an object to consoles
 
 	Line(int click[4], float points[4]);
 };
 
 
-//Klasa prostokąt
+
 class Rectangle :public Shape {
 
 protected:
-	sf::RectangleShape rectShape;	//Zmienna kształtu prostokąta z biblioteki SFML
-	float a, b, field;				//Parametry prostokąta
+	sf::RectangleShape rectShape;		// Rectangle shape variable from SFML library
+	float a, b, area;					// Rectangle parameters
 
 public:
-	void setSize(float a, float b);		//Ustalanie wielkości kształtu
-	void setOrigin();					//Ustalanie początku układu współrzędnych
-	void specialCalc();					//Obliczenia dla prostokąta
-	void showInfo(int click[4]);		//Wypisywanie informacji o obiekcie na konsole
+	void setSize(float a, float b);		// Determining rectangle size
+	void setOrigin();					// Determining origin coordinates
+	void specialCalc();					// Rectangle calculations
+	void showInfo(int click[4]);		// Writing out information about an object to consoles
 
 	Rectangle(int click[4], float points[4]);
 };
 
 
-//Klasa kwadrat
-class Square :public Rectangle {
+
+class Square : public Rectangle {
 
 public:
-	void setOrigin();				//Ustalanie początku układu współrzędnych
-	void showInfo(int click[4]);	//Wypisywanie informacji o obiekcie na konsole
+	void setOrigin();				// Determining origin coordinates
+	void showInfo(int click[4]);	// Writing out information about an object to consoles
 
 	Square(int click[4], float points[4]);
 };
 
 
-//Klasa elipsa
-class Ellipse :public Shape {
+
+class Ellipse : public Shape {
 
 protected:
-	sf::CircleShape circleShape;		//Zmienna kształtu okręgu z biblioteki SFML
-	float a, b, shortR, longR, field;	//Parametry
+	sf::CircleShape circleShape;		// Ellipse shape variable from SFML library
+	float a, b, shortR, longR, area;	// Ellipse parameters
 
 public:
-	void setSize(float a, float b);		//Ustalanie wielkości elipsy
-	void specialCalc();					//Obliczenia dla elipsy
-	void showInfo(int click[4]);		//Wypisywanie informacji o obiekcie na konsole
+	void setSize(float a, float b);		// Determining ellipse size
+	void specialCalc();					// Ellipse calculations
+	void showInfo(int click[4]);		// Writing out information about an object to consoles
 
 	Ellipse(int click[4], float points[4]);
 };
 
 
-//Klasa Okrąg
-class Circle :public Ellipse {
+
+class Circle : public Ellipse {
 
 public:
-	void rotate();					//Obrót i poprawa kształtu względem elipsy
-	void showInfo(int click[4]);	//Wypisywanie informacji o obiekcie na konsole
+	void rotate();					// Rotate and improve the shape relative to the ellipse
+	void showInfo(int click[4]);	// Writing out information about an object to consoles
 
 	Circle(int click[4], float points[4]);
 };
 
-//Klasa Trójkąt
-class Triangle :public Shape {
+
+
+class Triangle : public Shape {
 
 protected:
-	sf::ConvexShape triangleShape;		//Zmienna Convex przechowująca kształt
-	float a, b, X3, footing, field, height;	//Zmienne zawierające parametry trójkąta
+	sf::ConvexShape triangleShape;			// Convex variable storing the shape
+	float a, b, X3, base, area, height;	// Triangle parameters
 
 public:
-	void setSize(float a, float b);	//Ustawienie wielkości figury w zależności od kierunku rysowania
-	void specialCalc();				//Obliczenia matematyczne związane z trójkątem
-	void showInfo(int click[4]);	//Wyświetlanie informacji o trójkącie na konsolę
+	void setSize(float a, float b);			// Determining triangle size
+	void specialCalc();						// Triangle calculations
+	void showInfo(int click[4]);			// Writing out information about an object to consoles
 
-	Triangle(int click[4], float point[4]);	//Konstruktor trójkąta
+	Triangle(int click[4], float point[4]);
 };
 
 
-//Struktura przechowująca utworzone kształty i informacje o nich
-struct listManage
+
+/* List management functions */
+// Structure storing created shapes and information about them
+struct ListManager
 {
-	ObiektGraficzny* p;
-	listManage* pNext;
+	GraphicalObject* p;
+	ListManager* pNext;
 	int click[4];
 	float points[4];
 };
 
-/*Funkcje zarządzające listą*/
-void addElement(listManage*& pHead, int click[4], float points[4], bool fake);	//Dodawanie elementu do listy
-void showInfo(ObiektGraficzny* ptr, int click[4]);								//Wyświetlanie opisu kształtu z użyciem RTTI
-void drawList(listManage* pHead, sf::RenderWindow& window);						//Rysowanie listy
+void showInfo(GraphicalObject* ptr, int click[4]);								// Displaying shape description using RTTI
+void addElement(ListManager*& pHead, int click[4], float points[4], bool fake);	// Adding an item to a list
+void drawList(ListManager* pHead, sf::RenderWindow& window);					// Drawing a list
 
 template <class T>
-void deleteList(T*& pHead);														//Usuwanie listy
+void deleteList(T*& pHead);														// Deleting list
 
-void deleteLast(listManage*& pHead);											//Usuwanie ostatniego elementu z listy (Undo)
-void virtualShape(int click[4], float points[4], sf::RenderWindow& window);		//Wyświetlna podgląd na niezaakceptowany kszatałt na okno
+void deleteLast(ListManager*& pHead);											// Deleting the last item in the list
+void virtualShape(int click[4], float points[4], sf::RenderWindow& window);		// Display a preview of the unaccepted shape on the window
 
-/*Funkcje zapisu i odczytu*/
-void writeToFile(listManage* pHead, std::string adress);						//Zapis do wybranego pliku informacji o kształtach
-void readFile(listManage*& pHead, std::string adress);							//Odczyt z wybranego pliku infoamcji o kształtach
-bool splitWords(listManage*& pHead, std::string line);							//Podział zakodowanej informacji na podproblemy
-#endif
+
+
+/* Write and read functions */
+void writeToFile(ListManager* pHead, std::string adress);						// Writing shape information to the selected file
+void readFile(ListManager*& pHead, std::string adress);							// Reading information about shapes from the selected file
+bool splitWords(ListManager*& pHead, std::string line);							// Division of coded information into subproblems

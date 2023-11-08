@@ -1,65 +1,55 @@
 ﻿#pragma once
-#ifndef menuh
-#define menuh
 
 #include <vector>
-#include <iostream>
 #include <SFML/Graphics.hpp>
 
-//Klasa pojedynczego przycisku interface'u
+// Class representing an individual button in the GUI
 class Button {
-
 private:
-	sf::RectangleShape button;		//Zmienne kształtu prostokątu biblioteki SFML
-	sf::RectangleShape menuImage;	//Kolejno styl i wielkość przycisku oraz tekstura
+	sf::RectangleShape button;       // SFML library rectangle shape variables
+	sf::RectangleShape menuImage;    // Button style, size, and texture
 
-	int btnWidth;		//Szerokość
-	int btnHeight;		//Wysokość
-	bool active;		//Czy aktywny
-	bool hovered;		//Czy zaznaczony kursorem
+	int btnWidth;                    // Button width
+	int btnHeight;                   // Button height
+	bool active;                     // Is button active
+	bool hovered;                    // Is button hovered by cursor
 
 public:
-	void setBackColor(sf::Color color);					//Ustalanie koloru tła
-	void setPosition(sf::Vector2f point, int frame);	//Ustalanie pozycji
-	void setActive(bool what);							//Ustalanie aktywności
-	void setHovered(bool what);							//Ustalanie podświetnienia
-	void changeTexture(int which);						//Zmiana tekstury (ograniczona ze względu na wykorzystanie w jednym przypadku)
-	void drawTo(sf::RenderWindow& window);				//Narysuj przycisk na ekran
-	bool isMouseOver(sf::RenderWindow& window);			//Zwraca prawdę gdy kursor znajduje się na przycisku
+	void setBackColor(sf::Color color);                    // Set background color
+	void setPosition(sf::Vector2f point, int frame);       // Set position
+	void setActive(bool what);                             // Set activity status
+	void setHovered(bool what);                            // Set hover status
+	void changeTexture(int which);                         // Change texture (limited usage case)
+	void drawTo(sf::RenderWindow& window);                 // Draw button to screen
+	bool isMouseOver(sf::RenderWindow& window);            // Return true if cursor is over the button
 
-	Button(sf::Vector2f buttonSize, sf::Vector2f buttonPosition, float frame, sf::Color BgColor, sf::Texture* menuTexture, int BtnNo, int TextureRow);
+	Button(sf::Vector2f buttonSize, sf::Vector2f buttonPosition, float frame,
+		sf::Color bgColor, sf::Texture* menuTexture, int btnNo, int textureRow);
 };
 
-
-//Klasa konstrolująca interface
+// Class controlling the GUI
 class Gui {
-
 private:
-	std::vector<std::vector<Button>> GuiVector;		//Wektor wektorów przechowujący wszystkie dostępne przyciski
-	sf::RectangleShape menuBg;						//Tło menu
-	sf::Text lineText;								//Tekst grubości linii
-	sf::Text fillText;								//Tekst wypełnienia kształtu
+	std::vector<std::vector<Button>> guiVector;           // Vector of vectors storing all available buttons
+	sf::RectangleShape menuBg;                            // Menu background
+	sf::Text lineText;                                    // Text for line thickness
+	sf::Text fillText;                                    // Text for shape fill
 
 public:
-	void drawGui(sf::RenderWindow& window);		//Rysowanie całego Gui
+	void drawGui(sf::RenderWindow& window);               // Draw the entire GUI
 
-	//Konstruktor rzędu przyciskow powiązanych ze sobą (narzędzie/kolor)
-	void makeMenu(std::vector<Button>* menuButtonRow, sf::Vector2f buttonSize, 	
-	sf::Vector2f buttonPosition, float frame, sf::Color BgColor, sf::Texture* menuTexture, int BtnAm, int row);
+	// Constructor for a row of related buttons (tool/color)
+	void makeMenu(std::vector<Button>* menuButtonRow, sf::Vector2f buttonSize,
+		sf::Vector2f buttonPosition, float frame, sf::Color bgColor,
+		sf::Texture* menuTexture, int btnAmount, int row);
 
-	void menuReact(sf::RenderWindow& window, int row);		//Podświetlenie przycisku po najechaniu
-	bool menuClick(sf::RenderWindow& window, int row);		//Reakcja na klikniecie dla pojedynczych przyciskow
-	int menuListClick(sf::RenderWindow& window, int row);	//Reakcja na klinięcie dla list przycisków
-	void changeText(int which, int value);					//Zmiana tesktów w gui
+	void menuReact(sf::RenderWindow& window, int row);    // Highlight button when hovered
+	bool menuClick(sf::RenderWindow& window, int row);    // Single button click response
+	int menuListClick(sf::RenderWindow& window, int row); // Response to click for a list of buttons
+	void changeText(int which, int value);                // Change text in GUI
 
-	/*PRZECIĄŻONY OPERATOR*/
-	operator int();
+	// Overloaded operator to cast Gui to an integer
+	operator int() const;
 
 	Gui(sf::RenderWindow& window, sf::Texture* menuTexture, sf::Font* font);
-
 };
-
-
-
-
-#endif

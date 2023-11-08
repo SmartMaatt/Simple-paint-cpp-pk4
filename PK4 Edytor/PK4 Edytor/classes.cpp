@@ -12,9 +12,8 @@
 #include "canvas.h"
 
 
-/*KSZTAŁT*/
-
-//Wybór koloru kształtu
+/* Shape */
+// Choose shape color
 sf::Color Shape::chooseColor(int color) {
 	switch (color)
 	{
@@ -37,25 +36,24 @@ sf::Color Shape::chooseColor(int color) {
 		return sf::Color::Yellow;
 		break;
 	case 6:
-		//pomarańcz
+		// Orange
 		return sf::Color(255, 129, 18);
 		break;
 	case 7:
 		return sf::Color::Magenta;
 		break;
 	case 8:
-		//seledyn
+		// Celadon
 		return sf::Color(69, 214, 195);
 		break;
 	case 9:
-		//szary
+		// Grey
 		return sf::Color(219, 219, 219);
 		break;
 	}
 }
 
-
-//Ustalanie współrzędnych kształtu
+// Determining shape coordinates
 void Shape::setPoints(float points[4]) {
 	X1 = points[0];
 	Y1 = points[1];
@@ -63,21 +61,18 @@ void Shape::setPoints(float points[4]) {
 	Y2 = points[3];
 }
 
-
-//Ustalanie koloru kształtu
+// Determining shape color
 void Shape::setColor(sf::Color color) {
 	(*shapeSrc).setFillColor(color);
 }
 
-
-//Ustalanie wypełnienia
+// Determining the thickness of outline
 void Shape::setOutline(sf::Color color, int data) {
 	(*shapeSrc).setOutlineColor(color);
 	(*shapeSrc).setOutlineThickness(data * 2 + 3);
 }
 
-
-//Ustalanie grubości obranowania
+// Determining filling
 void Shape::setFilling(int data) {
 	if (data == 1)
 		fill = true;
@@ -87,93 +82,83 @@ void Shape::setFilling(int data) {
 	}
 }
 
-
-//Ustalanie pozycji kształtu
+// Determining shape position
 void Shape::setPosition(float x, float y) {
 	(*shapeSrc).setPosition({ x, y });
 }
 
-
-//Rysowanie obiektu na ekran
+// Determining shape on screen
 void Shape::draw(sf::RenderWindow& window) {
 	window.draw(*shapeSrc);
 }
 
 
 
-
-/*LINIA*/
-
-//Ustalanie początku układu wpółrzędnych
+/* Line */
+// Determining origin coordinates
 void Line::setOrigin(float x, float y) {
 	lineShape.setOrigin({ x,y });
 }
 
-
-//Ustalanie wielkości kształtu
+// Determining line size
 void Line::setSize(float a, float b) {
 	lineShape.setSize({ a,b });
 }
 
-
-//Ustalanie kąta nachylenia linii
+// Determining line angle
 void Line::setAngle() {
 	lineShape.rotate(angle);
 }
 
-
-//Obliczenia dla linii
-void Line::specialCalc() {	
+// Line calculations
+void Line::specialCalc() {
 	length = sqrt(abs(pow(Y2 - Y1, 2)) + abs(pow(X2 - X1, 2)));
 	angle = atan2(Y2 - Y1, X2 - X1) * (180 / 3.14);
 }
 
-
-//Wypisywanie informacji o obiekcie na konsole
+// Writing out information about an object to consoles
 void Line::showInfo(int click[4]) {
-	std::cout << "Dlugosc: " << length << std::endl;
+	std::cout << "Length: " << length << std::endl;
 	if (angle < 0)
-		std::cout << "Kat: " << abs(angle) + 180 << std::endl;
+		std::cout << "Angle: " << abs(angle) + 180 << std::endl;
 	else
-		std::cout << "Kat: " << angle << std::endl;
-	std::cout << "Kolor nr: " << click[1] + 1 << std::endl;
-	std::cout << "Grubosc linii: " << click[2] + 1 << std::endl << std::endl;
+		std::cout << "Angle: " << angle << std::endl;
+
+	std::cout << "Color number: " << click[1] + 1 << std::endl;
+	std::cout << "Line thickness: " << click[2] + 1 << std::endl << std::endl;
 }
 
-
-//Konstruktor linii
-Line::Line(int click[4], float points[4]){
+// Line constructor
+Line::Line(int click[4], float points[4]) {
 
 	shapeSrc = &lineShape;
 
 	setPoints(points);
 	specialCalc();
 	setColor(chooseColor(click[1]));
-	
+
 	setOrigin(0, (float)(click[2] + 2));
 	setSize(length, (float)(click[2] * 2 + 3));
 
 	setPosition(X1, Y1);
-	setAngle();	
+	setAngle();
 }
 
 
 
 
-/*PROSTOKĄT*/
-
-//Ustalanie wielkości kształtu
+/* Rectangle */
+// Determining rectangle size
 void Rectangle::setSize(float a, float b) {
 	rectShape.setSize({ a,b });
 }
 
-
-//Ustalanie początku układu współrzędnych
+// Determining origin coordinates
 void Rectangle::setOrigin() {
-	if (X1 > X2&& Y1 > Y2) {
+	if (X1 > X2 && Y1 > Y2) {
 		rectShape.setOrigin({ a,b });
 	}
-	else if (X1 > X2&& Y1 < Y2) {
+	else if (X1 > X2 && Y1 < Y2) {
 		rectShape.setOrigin({ a,0 });
 	}
 	else if (X1 < X2 && Y1 > Y2) {
@@ -181,30 +166,23 @@ void Rectangle::setOrigin() {
 	}
 }
 
-
-//Obliczenia dla prostokąta
+// Rectangle calculations
 void Rectangle::specialCalc() {
 	a = abs(X2 - X1);
 	b = abs(Y2 - Y1);
-	field = a*b;
+	area = a * b;
 }
 
-
-//Wypisywanie informacji o obiekcie na konsole
+// Writing out information about an object to consoles
 void Rectangle::showInfo(int click[4]) {
-	std::cout << "Pole: " << field << std::endl;
-	std::cout << "Dlugosci a: " << a << " b: " << b << std::endl;
-	std::cout << "Kolor nr: " << click[1] + 1 << std::endl;
-	std::cout << "Grubosc linii: " << click[2] + 1 << std::endl;
-
-	if (fill)
-		std::cout << "Wypelnienie: Tak" << std::endl << std::endl;
-	else
-		std::cout << "Wypelnienie: Nie" << std::endl << std::endl;
+	std::cout << "Area: " << area << std::endl;
+	std::cout << "Lengths a: " << a << " b: " << b << std::endl;
+	std::cout << "Color number: " << click[1] + 1 << std::endl;
+	std::cout << "Line thickness: " << click[2] + 1 << std::endl;
+	std::cout << "Filling: " << fill << std::endl << std::endl;
 }
 
-
-//Konstruktor prostokąta
+// Rectangle constructor
 Rectangle::Rectangle(int click[4], float points[4]) {
 
 	shapeSrc = &rectShape;
@@ -215,18 +193,17 @@ Rectangle::Rectangle(int click[4], float points[4]) {
 
 	setColor(chooseColor(click[1]));
 	setOutline(rectShape.getFillColor(), click[2]);
-	
+
 	setFilling(click[3]);
-	
-	setPosition(X1,Y1);
-	setSize(a,b);
+
+	setPosition(X1, Y1);
+	setSize(a, b);
 }
 
 
 
-/*KWADRAT*/
-
-//Ustalanie początku układu współrzędnych
+/* Square */
+// Determining origin coordinates
 void Square::setOrigin() {
 	if (X1 > X2 && Y1 > Y2) {
 		rectShape.setOrigin({ 0,0 });
@@ -242,34 +219,29 @@ void Square::setOrigin() {
 	}
 }
 
-
-//Wypisywanie informacji o obiekcie na konsole
+// Writing out information about an object to consoles
 void Square::showInfo(int click[4]) {
-	std::cout << "Pole: " << field << std::endl;
-	if(a>b)
-		std::cout << "Dlugosc boku: " << b << std::endl;
+	std::cout << "Pole: " << area << std::endl;
+	if (a > b)
+		std::cout << "Side length: " << b << std::endl;
 	else
-		std::cout << "Dlugosc boku: " << a << std::endl;
-	std::cout << "Kolor nr: " << click[1] + 1 << std::endl;
-	std::cout << "Grubosc linii: " << click[2] + 1 << std::endl;
+		std::cout << "Side length: " << a << std::endl;
 
-	if (fill)
-		std::cout << "Wypelnienie: Tak" << std::endl << std::endl;
-	else
-		std::cout << "Wypelnienie: Nie" << std::endl << std::endl;
+	std::cout << "Color number: " << click[1] + 1 << std::endl;
+	std::cout << "Line thickness: " << click[2] + 1 << std::endl;
+	std::cout << "Filling: " << fill << std::endl << std::endl;
 }
 
-
-//Konstruktor kwadratu
+// Square constructor
 Square::Square(int click[4], float points[4]) : Rectangle(click, points) {
 
 	if (a > b) {
 		setSize(b, b);
-		field = b * b;
+		area = b * b;
 	}
 	else {
 		setSize(a, a);
-		field = a * a;
+		area = a * a;
 	}
 
 	setOrigin();
@@ -278,18 +250,17 @@ Square::Square(int click[4], float points[4]) : Rectangle(click, points) {
 
 
 
-/*ELIPSA*/
-
-//Ustalanie wielkości elipsy
+/* Ellipse */
+// Determining ellipse size
 void Ellipse::setSize(float a, float b) {
 	circleShape.setRadius(shortR);
 	if (X1 < X2 && Y1 < Y2) {
 		circleShape.setScale(a / b, b / a);
 	}
-	else if (X1 > X2&& Y1 > Y2) {
+	else if (X1 > X2 && Y1 > Y2) {
 		circleShape.setScale(-(a / b), -(b / a));
 	}
-	else if (X1 > X2&& Y1 < Y2) {
+	else if (X1 > X2 && Y1 < Y2) {
 		circleShape.setScale(-(a / b), b / a);
 	}
 	else if (X1 < X2 && Y1 > Y2) {
@@ -297,8 +268,7 @@ void Ellipse::setSize(float a, float b) {
 	}
 }
 
-
-//Obliczenia dla elipsy
+// Ellipse calculations
 void Ellipse::specialCalc() {
 	a = abs(X2 - X1);
 	b = abs(Y2 - Y1);
@@ -311,25 +281,19 @@ void Ellipse::specialCalc() {
 		shortR = a / 2;
 		longR = b / 2;
 	}
-	field = 3.14 * a * b;
+	area = 3.14 * a * b;
 }
 
-
-//Wypisywanie informacji o obiekcie na konsole
+// Writing out information about an object to consoles
 void Ellipse::showInfo(int click[4]) {
-	std::cout << "Pole: " << field << std::endl;
-	std::cout << "Dlugosci r1: " << shortR << " r: " << longR << std::endl;
-	std::cout << "Kolor nr: " << click[1] + 1 << std::endl;
-	std::cout << "Grubosc linii: " << click[2] + 1 << std::endl;
-
-	if (fill)
-		std::cout << "Wypelnienie: Tak" << std::endl << std::endl;
-	else
-		std::cout << "Wypelnienie: Nie" << std::endl << std::endl;
+	std::cout << "Area: " << area << std::endl;
+	std::cout << "Lengths r1: " << shortR << " r: " << longR << std::endl;
+	std::cout << "Color number: " << click[1] + 1 << std::endl;
+	std::cout << "Line thickness: " << click[2] + 1 << std::endl;
+	std::cout << "Filling: " << fill << std::endl << std::endl;
 }
 
-
-//Konstruktor elipsy
+// Ellipse constructor
 Ellipse::Ellipse(int click[4], float points[4]) {
 
 	shapeSrc = &circleShape;
@@ -348,15 +312,13 @@ Ellipse::Ellipse(int click[4], float points[4]) {
 
 
 
-
-/*OKRĄG*/
-
-//Obrót i poprawa kształtu względem elipsy
+/* Circle */
+// Rotate and improve the shape relative to the ellipse
 void Circle::rotate() {
-	if (X1 > X2&& Y1 > Y2) {
+	if (X1 > X2 && Y1 > Y2) {
 		circleShape.rotate(180);
 	}
-	else if (X1 > X2&& Y1 < Y2) {
+	else if (X1 > X2 && Y1 < Y2) {
 		circleShape.rotate(90);
 	}
 	else if (X1 < X2 && Y1 > Y2) {
@@ -364,70 +326,61 @@ void Circle::rotate() {
 	}
 }
 
-
-//Wypisywanie informacji o obiekcie na konsole
+// Writing out information about an object to consoles
 void Circle::showInfo(int click[4]) {
-	std::cout << "Pole: " << field << std::endl;
-	std::cout << "Dlugosci r: " << longR << std::endl;
-	std::cout << "Kolor nr: " << click[1] + 1 << std::endl;
-	std::cout << "Grubosc linii: " << click[2] + 1 << std::endl;
-
-	if (fill)
-		std::cout << "Wypelnienie: Tak" << std::endl << std::endl;
-	else
-		std::cout << "Wypelnienie: Nie" << std::endl << std::endl;
+	std::cout << "Area: " << area << std::endl;
+	std::cout << "Lengths r: " << longR << std::endl;
+	std::cout << "Color number: " << click[1] + 1 << std::endl;
+	std::cout << "Line thickness: " << click[2] + 1 << std::endl;
+	std::cout << "Filling: " << fill << std::endl << std::endl;
 }
 
-
-//Konstruktor koła
-Circle::Circle(int click[4], float points[4]): Ellipse(click,points) {
+// Circle constructor
+Circle::Circle(int click[4], float points[4]) : Ellipse(click, points) {
 	circleShape.setScale(1, 1);
 	longR = shortR;
-	field = shortR * shortR * 3, 14;
+	area = shortR * shortR * 3, 14;
 	rotate();
 }
 
-/*TRÓJKĄT*/
 
-//Ustawienie wielkości i rozstawienie punktów
+
+/* Triangle */
+// Determining triangle size
 void Triangle::setSize(float a, float b) {
 
 	triangleShape.setPointCount(3);
 	triangleShape.setPoint(0, sf::Vector2f(X1, Y1));
 	triangleShape.setPoint(1, sf::Vector2f(X2, Y2));
 
-	if ((X1 > X2 && Y1 < Y2)||(X1 > X2 && Y1 > Y2)) {
+	if ((X1 > X2 && Y1 < Y2) || (X1 > X2 && Y1 > Y2)) {
 		X3 = X2 + (abs(X1 - X2) * 2);
 		triangleShape.setPoint(2, sf::Vector2f(X3, Y2));
 	}
-	else if ((X1 < X2&& Y1 > Y2)||(X1 < X2&& Y1 < Y2)) {
+	else if ((X1 < X2 && Y1 > Y2) || (X1 < X2 && Y1 < Y2)) {
 		X3 = X2 - (abs(X1 - X2) * 2);
 		triangleShape.setPoint(2, sf::Vector2f(X3, Y2));
 	}
 }
 
-//Specjalne obliczenia trójkąta
+// Triangle calculations
 void Triangle::specialCalc() {
 	height = abs(Y2 - Y1);
-	footing = abs(X2 - X3);
-	field = (height * footing) / 2;
+	base = abs(X2 - X3);
+	area = (height * base) / 2;
 }
 
-//Wypisywanie informacji o obiekcie na konsole
+// Writing out information about an object to consoles
 void Triangle::showInfo(int click[4]) {
-	std::cout << "Pole: " << field << std::endl;
-	std::cout << "Wysokosc: " << height << std::endl;
-	std::cout << "Dlugosc podstawy: " << footing << std::endl;
-	std::cout << "Kolor nr: " << click[1] + 1 << std::endl;
-	std::cout << "Grubosc linii: " << click[2] + 1 << std::endl;
-
-	if (fill)
-		std::cout << "Wypelnienie: Tak" << std::endl << std::endl;
-	else
-		std::cout << "Wypelnienie: Nie" << std::endl << std::endl;
+	std::cout << "Area: " << area << std::endl;
+	std::cout << "Height: " << height << std::endl;
+	std::cout << "Base length: " << base << std::endl;
+	std::cout << "Color number: " << click[1] + 1 << std::endl;
+	std::cout << "Line thickness: " << click[2] + 1 << std::endl;
+	std::cout << "Filling: " << fill << std::endl << std::endl;
 }
 
-//Konstruktor trójkąta
+// Triangle constructor
 Triangle::Triangle(int click[4], float points[4]) {
 
 	shapeSrc = &triangleShape;
@@ -442,36 +395,37 @@ Triangle::Triangle(int click[4], float points[4]) {
 
 }
 
-/*Funkcje zarządzające listą*/
 
-//Wyświetlanie opisu kształtu z użyciem RTTI
-void showInfo(ObiektGraficzny* ptr, int click[4]) {
 
-	std::cout << "/*Narysowano ";
+/* List management functions */
+// Displaying shape description using RTTI
+void showInfo(GraphicalObject* ptr, int click[4]) {
+
+	std::cout << "/* Drawn ";
 
 	if (typeid(*ptr) == typeid(Line))
-		std::cout << "Linie";
+		std::cout << "Line";
 	else if (typeid(*ptr) == typeid(Rectangle))
-		std::cout << "Prostokat";
+		std::cout << "Rectangle";
 	else if (typeid(*ptr) == typeid(Square))
-		std::cout << "Kwadrat";
+		std::cout << "Square";
 	else if (typeid(*ptr) == typeid(Ellipse))
-		std::cout << "Elipse";
-	else if (typeid(*ptr) == typeid(Circle)){
-		if (click[3] == 0)
-			std::cout << "Okrag";
-		else
-			std::cout << "Kolo";
-	}
-	else { std::cout << "Trojkat"; }
-	std::cout << "!*/" << std::endl;
+		std::cout << "Ellipse";
+	else if (typeid(*ptr) == typeid(Circle))
+		std::cout << "Circle";
+	else if (typeid(*ptr) == typeid(Triangle))
+		std::cout << "Triangle";
+	else
+		std::cout << "Unknown object";
+
+	std::cout << "! */" << std::endl;
 	ptr->showInfo(click);
 }
 
-//Dodawanie elementu do listy
-void addElement(listManage*& pHead, int click[4], float points[4], bool info) {
+// Adding an item to list
+void addElement(ListManager*& pHead, int click[4], float points[4], bool info) {
 
-	ObiektGraficzny* p = nullptr;
+	GraphicalObject* p = nullptr;
 
 	switch (click[0]) {
 	case 0:
@@ -494,14 +448,14 @@ void addElement(listManage*& pHead, int click[4], float points[4], bool info) {
 		break;
 	}
 
-	listManage* tmp = new listManage{ p, nullptr };
+	ListManager* tmp = new ListManager{ p, nullptr };
 	for (int i = 0; i < 4; i++) {
 		tmp->click[i] = click[i];
 		tmp->points[i] = points[i];
 	}
 
 	if (pHead) {
-		listManage* tmpHead = pHead;
+		ListManager* tmpHead = pHead;
 		while (tmpHead->pNext) {
 			tmpHead = tmpHead->pNext;
 		}
@@ -515,21 +469,18 @@ void addElement(listManage*& pHead, int click[4], float points[4], bool info) {
 		showInfo(p, click);
 }
 
-
-//Rysowanie listy
-void drawList(listManage* pHead, sf::RenderWindow& window) {
+// Drawing list
+void drawList(ListManager* pHead, sf::RenderWindow& window) {
 	if (pHead) {
 		pHead->p->draw(window);
 		drawList(pHead->pNext, window);
 	}
 }
 
-
-//Usuwanie listy
+// Deleting list
 template <class T>
 void deleteList(T*& pHead) {
-	//Zabezpieczenie na wypadek użycia struktury/klasy o innej budowie
-	if (std::is_same<T, listManage>::value)
+	if (std::is_same<T, ListManager>::value)
 	{
 		if (pHead) {
 			deleteList(pHead->pNext);
@@ -538,21 +489,19 @@ void deleteList(T*& pHead) {
 	}
 }
 
-
-//Usuwanie ostatniego elementu listy
-void deleteLast(listManage*& pHead) {
+// Deleting the last item in the list
+void deleteLast(ListManager*& pHead) {
 	if (pHead) {
-		listManage* temp = pHead->pNext;
+		ListManager* temp = pHead->pNext;
 		delete pHead;
 		pHead = temp;
 	}
 }
 
-
-//Wyświetlna podgląd na niezaakceptowany kszatałt na okno
+// Display a preview of the unaccepted shape on the window
 void virtualShape(int click[4], float points[4], sf::RenderWindow& window) {
 
-	listManage* pHead=nullptr;
+	ListManager* pHead = nullptr;
 	float temp[4] = { points[0], points[1], sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y };
 
 	addElement(pHead, click, temp, false);
@@ -562,16 +511,14 @@ void virtualShape(int click[4], float points[4], sf::RenderWindow& window) {
 
 
 
-
-/*Funkcje zapisu i odczytu*/
-
-//Zapis do wybranego pliku informacji o kształtach
-void writeToFile(listManage* pHead, std::string adress) 
+/* Write and read functions */
+// Writing shape information to the selected file
+void writeToFile(ListManager* pHead, std::string adress)
 {
-	std::ofstream fileIn(adress, std::ios::out); 
+	std::ofstream fileIn(adress, std::ios::out);
 
-	while (pHead) {	
-		listManage* w = pHead; 
+	while (pHead) {
+		ListManager* w = pHead;
 
 		std::string str = "{\"shape\": ";
 		str = str + std::to_string(w->click[0]);
@@ -590,18 +537,17 @@ void writeToFile(listManage* pHead, std::string adress)
 			str = str + std::to_string(w->points[j]) + ", ";
 		}
 		str = str + "]},";
-		
-		fileIn << str << std::endl;	
-		pHead = pHead->pNext;	
+
+		fileIn << str << std::endl;
+		pHead = pHead->pNext;
 	};
 
 	fileIn.close();
-	std::cout << "Plik " << adress << " zostal utworzony pomyslnie!" << std::endl;
+	std::cout << "File " << adress << " was created successfully!" << std::endl;
 };
 
-
-//Odczyt z wybranego pliku infoamcji o kształtach
-void readFile(listManage*& pHead, std::string adress) {
+// Reading information about shapes from the selected file
+void readFile(ListManager*& pHead, std::string adress) {
 
 	deleteList(pHead);
 	pHead = nullptr;
@@ -613,25 +559,25 @@ void readFile(listManage*& pHead, std::string adress) {
 		if (fileOut) {
 			while (getline(fileOut, line)) {
 				if (!(splitWords(pHead, line))) {
-					throw "Odnaleziono blad w skladni pliku " + adress + "\nProsze sprawdzic poprawnosc kodowania!" ;
+					throw "Error in file syntax found " + adress + "Please check the correct coding\n!";
 				}
 			}
-			throw "Plik " + adress + " zostal odczytany pomyslnie!\n";
+			throw "File " + adress + " was read successfully!\n";
 		}
-		else throw "Plik " + adress + " nie istnieje!\n";
+		else throw "File " + adress + " does not exist!\n";
 		fileOut.close();
 	}
 	catch (std::string text) {
 		std::cout << text;
 	}
 	catch (...) {
-		std::cout << "Wyjatek domyslny odczytu z pliku!" << std::endl;
+		std::cout << "Default read file exception!" << std::endl;
 	}
 };
 
 
-//Podział zakodowanej informacji na podproblemy
-bool splitWords(listManage*& pHead, std::string line) {
+// Division of coded information into subproblems
+bool splitWords(ListManager*& pHead, std::string line) {
 
 	std::istringstream test(line);
 	std::istringstream str(line);
@@ -640,45 +586,45 @@ bool splitWords(listManage*& pHead, std::string line) {
 	float points[4] = { 0,0,0,0 };
 	int length = 0;
 
-	while(test) {
+	while (test) {
 		std::string tmp;
 		test >> tmp;
 		length++;
 	};
 
 	if (length != 15) {
-		std::cout << "W otwieranym pliku znaleziono za malo/duzo informacji!" << std::endl;
+		std::cout << "Too little or too much information was found in the file being opened!" << std::endl;
 		return false;
 	}
 
 	std::string tmp;
 	str >> tmp;
 	if (tmp != "{\"shape\":") { return false; }
-	
+
 	str >> tmp;
-	if (tmp.length() == 2 && tmp[1] == ',' && (int)tmp[0] - 48 <6) { click[0] = (int)(tmp[0])-48; }
-	else{ return false;}
+	if (tmp.length() == 2 && tmp[1] == ',' && (int)tmp[0] - 48 < 6) { click[0] = (int)(tmp[0]) - 48; }
+	else { return false; }
 
 	str >> tmp;
 	if (tmp != "\"color\":") { return false; }
 
 	str >> tmp;
-	if (tmp.length() == 2 && tmp[1] == ',' && (int)tmp[0] - 48 < 10) { click[1] = (int)(tmp[0])-48; }
-	else{ return false; }
+	if (tmp.length() == 2 && tmp[1] == ',' && (int)tmp[0] - 48 < 10) { click[1] = (int)(tmp[0]) - 48; }
+	else { return false; }
 
 	str >> tmp;
 	if (tmp != "\"thickness\":") { return false; }
 
 	str >> tmp;
-	if (tmp.length() == 2 && tmp[1] == ',' && (int)tmp[0] - 48 < 5) { click[2] = (int)(tmp[0])-48; }
-	else{ return false; }
+	if (tmp.length() == 2 && tmp[1] == ',' && (int)tmp[0] - 48 < 5) { click[2] = (int)(tmp[0]) - 48; }
+	else { return false; }
 
 	str >> tmp;
 	if (tmp != "\"fill\":") { return false; }
 
 	str >> tmp;
-	if (tmp.length() == 2 && tmp[1] == ',' && (int)tmp[0] - 48 < 2) { click[3] = (int)(tmp[0])-48; }
-	else{ return false; }
+	if (tmp.length() == 2 && tmp[1] == ',' && (int)tmp[0] - 48 < 2) { click[3] = (int)(tmp[0]) - 48; }
+	else { return false; }
 
 	str >> tmp;
 	if (tmp != "\"coords\":[") { return false; }
@@ -694,7 +640,7 @@ bool splitWords(listManage*& pHead, std::string line) {
 
 	str >> tmp;
 	if (tmp != "]},") { return false; }
-	
+
 
 	addElement(pHead, click, points, true);
 	return true;

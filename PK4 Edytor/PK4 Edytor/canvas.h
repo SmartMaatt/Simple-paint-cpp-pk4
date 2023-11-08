@@ -1,20 +1,15 @@
 ﻿#pragma once
-#ifndef canvash
-#define canvash
 #include <SFML/Graphics.hpp>
 
-//Klasa obszaru roboczego
-class canvas {
+class Canvas {
 
 private:
-	sf::RectangleShape field;	//Zmienna kształtu prostokąta biblioteki SFML
-	int fieldWidth;				//Szerokość
-	int fieldHeight;			//Wysokość
+	sf::RectangleShape field;	// SFML library rectangle shape variable
+	int fieldWidth;
+	int fieldHeight;
 
 public:
-	void drawTo(sf::RenderWindow& window);			//Rysowanie obszaru roboczego
-	bool isMouseOver(sf::RenderWindow& window);		//Zwraca prawdę gdy mysz znajduje się w obszarze roboczym
-	canvas();										//Domyślny konstruktor
+	void drawTo(sf::RenderWindow& window);			// Drawing the workspace
+	bool isMouseOver(sf::RenderWindow& window);		// Returns true when the mouse is in the work area
+	Canvas();
 };
-
-#endif

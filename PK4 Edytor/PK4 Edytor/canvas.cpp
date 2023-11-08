@@ -6,13 +6,13 @@
 #include "canvas.h"
 
 
-//Rysowanie obszaru roboczego
-void canvas::drawTo(sf::RenderWindow& window) {
+// Drawing the workspace
+void Canvas::drawTo(sf::RenderWindow& window) {
 	window.draw(field);
 }
 
-//Zwraca prawdę gdy mysz znajduje się w obszarze roboczym
-bool canvas::isMouseOver(sf::RenderWindow& window) {
+// Returns true when the mouse is in the work area
+bool Canvas::isMouseOver(sf::RenderWindow& window) {
 	int mouseX = sf::Mouse::getPosition(window).x;
 	int mouseY = sf::Mouse::getPosition(window).y;
 
@@ -22,14 +22,14 @@ bool canvas::isMouseOver(sf::RenderWindow& window) {
 	int fieldxPosWidth = field.getPosition().x + fieldWidth;
 	int fieldyPosHeight = field.getPosition().y + fieldHeight;
 
-	if (mouseX < fieldxPosWidth && mouseX > fieldPosX&& mouseY < fieldyPosHeight && mouseY > fieldPosY) {
+	if (mouseX < fieldxPosWidth && mouseX > fieldPosX && mouseY < fieldyPosHeight && mouseY > fieldPosY) {
 		return true;
 	}
 	return false;
 }
 
-//Konstruktor obszatu roboczego
-canvas::canvas() {
+// Canvas constructor
+Canvas::Canvas() {
 	field.setSize({ 1280,720 - 54 });
 	field.setPosition({ 0,54 });
 	field.setFillColor(sf::Color::White);
