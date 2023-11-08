@@ -125,7 +125,7 @@ int Gui::menuListClick(sf::RenderWindow& window, int row) {
 // Change texts in GUI
 void Gui::changeText(int which, int value) {
     if (which == 0) {
-        lineText.setString("Grubosc linii: " + std::to_string(value + 1));
+        lineText.setString("Line thickness: " + std::to_string(value + 1));
     }
     else if (which == 1) {
         if (value == 0) {

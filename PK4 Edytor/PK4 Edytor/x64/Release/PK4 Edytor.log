@@ -1,7 +1,64 @@
-﻿  main.cpp
+﻿  menu.cpp
+C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\PK4 Edytor\menu.cpp(50,17): warning C4244: "inicjowanie": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\PK4 Edytor\menu.cpp(51,17): warning C4244: "inicjowanie": konwersja z "const T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\PK4 Edytor\menu.cpp(68,115): warning C4244: "argument": konwersja z "T" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\PK4 Edytor\menu.cpp(68,101): warning C4244: "argument": konwersja z "T" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\PK4 Edytor\menu.cpp(68,77): warning C4244: "argument": konwersja z "T" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\PK4 Edytor\menu.cpp(68,55): warning C4244: "argument": konwersja z "T" do "T", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+          and
+          [
+              T=int
+          ]
+C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\PK4 Edytor\menu.cpp(70,33): warning C4244: "argument": konwersja z "float" do "int", możliwa utrata danych
+C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\PK4 Edytor\menu.cpp(72,26): warning C4244: "=": konwersja z "T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
+C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\PK4 Edytor\menu.cpp(73,27): warning C4244: "=": konwersja z "T" do "int", możliwa utrata danych
+          with
+          [
+              T=float
+          ]
   Trwa generowanie kodu
-  1 of 463 functions ( 0.2%) were compiled, the rest were copied from previous compilation.
+  4 of 463 functions ( 0.9%) were compiled, the rest were copied from previous compilation.
     0 functions were new in current compilation
-    69 functions had inline decision re-evaluated but remain unchanged
+    0 functions had inline decision re-evaluated but remain unchanged
   Zakończono generowanie kodu
   PK4 Edytor.vcxproj -> C:\Users\mateu\Documents\GitHub\Simple-paint-cpp-pk4\PK4 Edytor\x64\Release\PK4 Edytor.exe
