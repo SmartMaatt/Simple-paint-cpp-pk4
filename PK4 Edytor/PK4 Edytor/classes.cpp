@@ -491,10 +491,21 @@ void deleteList(T*& pHead) {
 
 // Deleting the last item in the list
 void deleteLast(ListManager*& pHead) {
-	if (pHead) {
-		ListManager* temp = pHead->pNext;
+	if (pHead && pHead->pNext) {
+		ListManager* tmpPrev = pHead;
+		ListManager* tmpHead = pHead->pNext;
+
+		while (tmpHead->pNext) {
+			tmpPrev = tmpHead;
+			tmpHead = tmpHead->pNext;
+		}
+		tmpPrev->pNext = nullptr;
+		delete tmpHead;
+	}
+	else if (pHead)
+	{
 		delete pHead;
-		pHead = temp;
+		pHead = nullptr;
 	}
 }
 

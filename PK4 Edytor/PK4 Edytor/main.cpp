@@ -83,14 +83,14 @@ int main() {
                         deleteLast(pHead);
                     }
 
-                    // Save to "ProjectPK4" file
+                    // Save project
                     if (mainGui.menuClick(window, 5)) {
-                        writeToFile(pHead, "ProjectPK4.json");
+                        writeToFile(pHead, "project.json");
                     }
 
-                    // Read from "ProjectPK4" file
+                    // Read project
                     if (mainGui.menuClick(window, 6)) {
-                        readFile(pHead, "ProjectPK4.json");
+                        readFile(pHead, "project.json");
                     }
 
                     // Reaction to clicking in the drawing area
