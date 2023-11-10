@@ -1,18 +1,17 @@
-<div style="border-bottom: 1px solid #aaa; margin-bottom: 20px;">
-  <h1 style="border: none; margin: 0px;">
-    SFML Paint Application
-    <br>
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-    <img src="https://img.shields.io/badge/Author-SmartMatt-blue" />
-  </h1>
 
-  <p align="left">
+<h1 align="center">
+  SFML Paint Application
+  <p style="font-size: 16px; margin: 12px;">
     <a href="#overview">Overview</a> |
     <a href="#features">Features</a> |
     <a href="#technical-details">Technical Details</a> |
     <a href="#license">License</a>
   </p>
-</div>
+  <p style="margin: 10px;">
+    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+    <img src="https://img.shields.io/badge/Author-SmartMatt-blue" />
+  </p>
+</h1>
 
 ## Overview
 `sflm-paint-application` is a lightweight, C++ based graphic drawing application, inspired by the classic Microsoft Paint, but tailored down for simplicity and educational purposes. Utilizing the SFML (Simple and Fast Multimedia Library) 2.6.1, this project serves as an example of basic graphic manipulation and user interface implementation in C++.
