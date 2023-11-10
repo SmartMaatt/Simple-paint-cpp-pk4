@@ -2,9 +2,9 @@
 <h1 align="center">SFML Paint Application</h1>
 
 <p align="center">
-  <a href="#overview">Overview</a> |
-  <a href="#features">Features</a> |
-  <a href="#technical-details">Technical Details</a> |
+  <a href="#overview">Overview</a> •
+  <a href="#features">Features</a> •
+  <a href="#technical-details">Technical Details</a> •
   <a href="#license">License</a>
 </p>
 
@@ -54,9 +54,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 </a>
 
 <p align="left">
-  <a href="https://smartmatt.pl/">Portfolio</a> |
-  <a href="https://github.com/SmartMaatt">GitHub</a> |
-  <a href="https://www.linkedin.com/in/mateusz-p%C5%82onka-328a48214/">LinkedIn</a> |
-  <a href="https://www.youtube.com/user/SmartHDesigner">YouTube</a> |
+  <a href="https://smartmatt.pl/">Portfolio</a> •
+  <a href="https://github.com/SmartMaatt">GitHub</a> •
+  <a href="https://www.linkedin.com/in/mateusz-p%C5%82onka-328a48214/">LinkedIn</a> •
+  <a href="https://www.youtube.com/user/SmartHDesigner">YouTube</a> •
   <a href="https://www.tiktok.com/@smartmaatt">TikTok</a>
 </p>
