@@ -1,17 +1,17 @@
 
-<h1 align="center">
-  SFML Paint Application
-  <p style="font-size: 16px; margin: 12px;">
-    <a href="#overview">Overview</a> |
-    <a href="#features">Features</a> |
-    <a href="#technical-details">Technical Details</a> |
-    <a href="#license">License</a>
-  </p>
-  <p style="margin: 10px;">
-    <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
-    <img src="https://img.shields.io/badge/Author-SmartMatt-blue" />
-  </p>
-</h1>
+<h1 align="center">SFML Paint Application</h1>
+
+<p align="center">
+  <a href="#overview">Overview</a> |
+  <a href="#features">Features</a> |
+  <a href="#technical-details">Technical Details</a> |
+  <a href="#license">License</a>
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/License-MIT-yellow.svg" />
+  <img src="https://img.shields.io/badge/Author-SmartMatt-blue" />
+</p>
 
 ## Overview
 `sflm-paint-application` is a lightweight, C++ based graphic drawing application, inspired by the classic Microsoft Paint, but tailored down for simplicity and educational purposes. Utilizing the SFML (Simple and Fast Multimedia Library) 2.6.1, this project serves as an example of basic graphic manipulation and user interface implementation in C++.
@@ -49,14 +49,14 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 &copy; 2023 Mateusz Płonka (SmartMatt). All rights reserved.
+<a href="https://smartmatt.pl/">
+    <img src="https://smartmatt.pl/github/smartmatt-logo.png" alt="SmartMatt Logo" align="right" width="60" />
+</a>
+
 <p align="left">
   <a href="https://smartmatt.pl/">Portfolio</a> |
   <a href="https://github.com/SmartMaatt">GitHub</a> |
   <a href="https://www.linkedin.com/in/mateusz-p%C5%82onka-328a48214/">LinkedIn</a> |
   <a href="https://www.youtube.com/user/SmartHDesigner">YouTube</a> |
   <a href="https://www.tiktok.com/@smartmaatt">TikTok</a>
-</p>
-
-<p align="left">
-  <img src="https://smartmatt.pl/github/smartmatt-logo.png" width="75" height="75" alt="SmartMatt Logo"/>
 </p>
