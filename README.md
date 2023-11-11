@@ -14,10 +14,8 @@
 ## Overview
 `sflm-paint-application` is a lightweight, C++ based graphic drawing application, inspired by the classic Microsoft Paint, but tailored down for simplicity and educational purposes. Utilizing the SFML (Simple and Fast Multimedia Library) 2.6.1, this project serves as an example of basic graphic manipulation and user interface implementation in C++.
 
-<figure>
-  <img src="https://smartmatt.pl/github/sfml-paint-application/graphical-editor.png" title="App screenshot" width=75%>
-  <figcaption>Screenshot of the application's graphical interface.</figcaption>
-</figure>
+![Screenshot of the application's graphical interface.](https://smartmatt.pl/github/sfml-paint-application/graphical-editor.png)
+*Screenshot of the application's graphical interface.*
 
 ## Features
 
