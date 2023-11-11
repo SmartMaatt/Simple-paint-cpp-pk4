@@ -1,10 +1,8 @@
-
 <h1 align="center">SFML Paint Application</h1>
 
 <p align="center">
   <a href="#overview">Overview</a> •
   <a href="#features">Features</a> •
-  <a href="#technical-details">Technical Details</a> •
   <a href="#license">License</a>
 </p>
 
@@ -16,9 +14,10 @@
 ## Overview
 `sflm-paint-application` is a lightweight, C++ based graphic drawing application, inspired by the classic Microsoft Paint, but tailored down for simplicity and educational purposes. Utilizing the SFML (Simple and Fast Multimedia Library) 2.6.1, this project serves as an example of basic graphic manipulation and user interface implementation in C++.
 
-<div align="center">
-	<img src="https://smartmatt.pl/github/sfml-paint-application/graphical-editor.png" alt="App Screenshot" width="75%" />
-</div>
+<figure>
+  <img src="https://smartmatt.pl/github/sfml-paint-application/graphical-editor.png" title="App screenshot" width=75%>
+  <figcaption>Screenshot of the application's graphical interface.</figcaption>
+</figure>
 
 ## Features
 
@@ -50,7 +49,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ---
 &copy; 2023 Mateusz Płonka (SmartMatt). All rights reserved.
 <a href="https://smartmatt.pl/">
-    <img src="https://smartmatt.pl/github/smartmatt-logo.png" alt="SmartMatt Logo" align="right" width="60" />
+    <img src="https://smartmatt.pl/github/smartmatt-logo.png" title="SmartMatt Logo" align="right" width="60" />
 </a>
 
 <p align="left">
